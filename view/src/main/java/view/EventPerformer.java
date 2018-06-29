@@ -2,11 +2,10 @@ package view;
 
 import java.awt.event.KeyEvent;
 
-import jpu2016.dogfight.controller.IOrderPerformer;
-import jpu2016.dogfight.controller.IUserOrder;
-import jpu2016.dogfight.controller.Order;
-import jpu2016.dogfight.controller.UserOrder;
-import jpu2016.gameframe.IEventPerformer;
+import controller.IOrderPerformer;
+import controller.IUserOrder;
+import controller.Order;
+import view.IEventPerformer;
 
 class EventPerformer implements IEventPerformer {
 	private final IOrderPerformer orderPerformer;
@@ -38,9 +37,6 @@ class EventPerformer implements IEventPerformer {
 			case KeyEvent.VK_LEFT:
 				userOrder = new UserOrder(0, Order.LEFT);
 				break;
-			case KeyEvent.VK_CONTROL:
-				userOrder = new UserOrder(0, Order.SHOOT);
-				break;
 
 			case KeyEvent.VK_Z:
 				userOrder = new UserOrder(1, Order.UP);
@@ -53,9 +49,6 @@ class EventPerformer implements IEventPerformer {
 				break;
 			case KeyEvent.VK_Q:
 				userOrder = new UserOrder(1, Order.LEFT);
-				break;
-			case KeyEvent.VK_SHIFT:
-				userOrder = new UserOrder(1, Order.SHOOT);
 				break;
 			default:
 				userOrder = null;

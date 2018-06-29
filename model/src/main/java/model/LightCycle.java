@@ -7,6 +7,8 @@ public class LightCycle implements ILightCycle {
     private int Height;
     Direction direction;
     private Color color;
+    ITronModel tronModel;
+    IPosition position;
 
     public LightCycle(int Width, int Height, Color color){
         this.setWidth(Width);
@@ -53,12 +55,34 @@ public class LightCycle implements ILightCycle {
         return this.Height;
     }
 
-    public void setHeight(int hight) {
-        this.Height = hight;
+    public void setHeight(int height) {
+        this.Height = height;
     }
 
     public Color getColor() {
         return color;
+    }
+
+    @Override
+    public void setTronModel(ITronModel tronModel) {
+        this.tronModel = tronModel;
+        this.getPosition().setMaxX(this.getTronModel().getGrid().getDimension().getWidth());
+        this.getPosition().setMaxY(this.getTronModel().getGrid().getDimension().getHeight());
+    }
+
+    @Override
+    public boolean isPlayer(int player) {
+        return false;
+    }
+
+    @Override
+    public IPosition getPosition() {
+        return this.position;
+    }
+
+    @Override
+    public ITronModel getTronModel() {
+        return this.tronModel;
     }
 
     public void setColor(Color color) {
