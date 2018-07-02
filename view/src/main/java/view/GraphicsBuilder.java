@@ -16,22 +16,20 @@ public class GraphicsBuilder {
         graphics.clearRect(0, 0, this.grid.getX() * 3, this.grid.getY() * 3);
     }
 
-    /*private void drawAllJavaCell(Graphics graphics) {
-        Iterator var3 = this.javaPetri.getCopyOfJavaCells().iterator();
+    private void drawLightCycles(final Graphics graphics) {
+        graphics.setColor(lightCycle.getColor());
+        graphics.fillRect(lightCycle.getWidth() * TronFrame.ZOOM, lightCycle.getHeight() * TronFrame.ZOOM, TronFrame.ZOOM, TronFrame.ZOOM);
 
-        while(var3.hasNext()) {
-            JavaCell javaCell = (JavaCell)var3.next();
-            this.drawJavaCell(graphics, javaCell);
+    }
+
+    private void drawAllLightCycles(final Graphics graphics) {
+        for (final ILightCycle lightCycles : this.grid.getCopyOfLightCycles()) {
+            this.drawLightCycles(graphics);
         }
-    }*/
-
-    private void drawLightCycle(Graphics graphics, IGrid grid) {
-        graphics.setColor(ILightCycle.getColor());
-        graphics.fillRect(lightCycle.getWidth() * 3, lightCycle.getHeight() * 3, 3, 3);
     }
 
     public void applyModelToGraphic(Graphics graphics) {
         this.clearGraphics(graphics);
-        //this.drawAllJavaCell(graphics);
+        this.drawAllLightCycles(graphics);
     }
 }

@@ -1,24 +1,18 @@
-package jpu2016.dogfight.controller;
+package controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import jpu2016.dogfight.model.IDogfightModel;
-import jpu2016.dogfight.model.IMobile;
-import jpu2016.dogfight.model.Missile;
-import jpu2016.dogfight.model.Position;
-import jpu2016.dogfight.view.IViewSystem;
-import controller.IOrderPerformer;
-import controller.IUserOrder;
+import view.IViewSystem;
 import model.Direction;
 import model.ILightCycle;
-import model.ITronModel
+import model.ITronModel;
 
 public class TronController implements IOrderPerformer {
-	private static int						TIME_SLEEP	= 30;
+	private static int TIME_SLEEP = 30;
 	private final ITronModel tronModel;
 	private boolean isGameOver	= false;
 	private IViewSystem viewSystem;
+	ILightCycle lightCycle;
+    Direction direction;
 
 
 	public TronController(final ITronModel tronModel) {
@@ -28,9 +22,9 @@ public class TronController implements IOrderPerformer {
 	@Override
 	public void orderPerform(final IUserOrder userOrder) {
 		if (userOrder != null) {
-			final ILightCycle plane = this.tronModel.getLightCycleByPlayer(userOrder.getPlayer());
-			if (plane != null) {
-				Direction direction;
+			final ILightCycle lightCycle = this.tronModel.getLightCycleByPlayer(userOrder.getPlayer());
+			if (lightCycle != null) {
+
 				switch (userOrder.getOrder()) {
 					case UP:
 						direction = Direction.UP;
@@ -48,36 +42,36 @@ public class TronController implements IOrderPerformer {
 						direction = this.tronModel.getLightCycleByPlayer(userOrder.getPlayer()).getDirection();
 						break;
 				}
-				plane.setDirection(direction);
+				lightCycle.setDirection(direction);
 			}
 		}
 	}
 
-	private boolean isWeaponOnMobile(final IMobile mobile, final IMobile weapon) {
-		if (((weapon.getPosition().getX() / weapon.getWidth()) >= (mobile.getPosition().getX() / weapon.getWidth()))
-				&& ((weapon.getPosition().getX() / weapon.getWidth()) <= ((mobile.getPosition().getX() + mobile.getWidth()) / weapon.getWidth()))) {
-			if (((weapon.getPosition().getY() / weapon.getHeight()) >= (mobile.getPosition().getY() / weapon.getHeight()))
-					&& ((weapon.getPosition().getY() / weapon.getHeight()) <= ((mobile.getPosition().getY() + mobile.getHeight()) / weapon.getHeight()))) {
+	private boolean isWeaponOnMobile(final ILightCycle lightCycle, final ILightCycle weapon) {
+		if (((weapon.getPosition().getX() / weapon.getWidth()) >= (lightCycle.getPosition().getX() / weapon.getWidth()))
+				&& ((weapon.getPosition().getX() / weapon.getWidth()) <= ((lightCycle.getPosition().getX() + lightCycle.getWidth()) / weapon.getWidth()))) {
+			if (((weapon.getPosition().getY() / weapon.getHeight()) >= (lightCycle.getPosition().getY() / weapon.getHeight()))
+					&& ((weapon.getPosition().getY() / weapon.getHeight()) <= ((lightCycle.getPosition().getY() + lightCycle.getHeight()) / weapon.getHeight()))) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private void manageCollision(final IMobile weapon) {
-		final ArrayList<IMobile> target = new ArrayList<IMobile>();
+	private void manageCollision(final ILightCycle weapon) {
+		final ArrayList<ILightCycle> target = new ArrayList<ILightCycle>();
 		boolean isTargetHit = false;
 
-		for (final IMobile mobile : this.dogfightModel.getMobiles()) {
+		for (final ILightCycle mobile : this.tronModel.getLightCycles()) {
 			if (this.isWeaponOnMobile(mobile, weapon)) {
 				target.add(mobile);
 			}
 		}
-		for (final IMobile mobile : target) {
-			isTargetHit = isTargetHit || mobile.hit();
+		for (final ILightCycle lightCycle : target) {
+			isTargetHit = isTargetHit || lightCycle.hit();
 		}
 		if (isTargetHit) {
-			this.dogfightModel.removeMobile(weapon);
+			this.tronModel.removeLightCycle(weapon);
 			this.isGameOver = true;
 		}
 	}
@@ -96,17 +90,17 @@ public class TronController implements IOrderPerformer {
 				Thread.currentThread().interrupt();
 			}
 
-			final ArrayList<IMobile> initialMobiles = new ArrayList<IMobile>();
-			for (final IMobile mobile : this.dogfightModel.getMobiles()) {
-				initialMobiles.add(mobile);
+			final ArrayList<ILightCycle> initialLightCycles = new ArrayList<ILightCycle>();
+			for (final ILightCycle mobile : this.tronModel.getLightCycles()) {
+				initialLightCycles.add(mobile);
 			}
-			for (final IMobile mobile : initialMobiles) {
-				mobile.move();
-				if (mobile.isWeapon()) {
-					this.manageCollision(mobile);
+			for (final ILightCycle lightCycle : initialLightCycles) {
+				lightCycle.move();
+				if (lightCycle.isWeapon()) {
+					this.manageCollision(lightCycle);
 				}
 			}
-			this.dogfightModel.setMobilesHavesMoved();
+			this.tronModel.setLightCyclesHaveMoved();
 		}
 	}
 

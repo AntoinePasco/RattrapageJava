@@ -5,10 +5,11 @@ import java.awt.event.KeyEvent;
 import controller.IOrderPerformer;
 import controller.IUserOrder;
 import controller.Order;
-import view.IEventPerformer;
+import controller.UserOrder;
 
 class EventPerformer implements IEventPerformer {
 	private final IOrderPerformer orderPerformer;
+	UserOrder userOrder;
 
 	public EventPerformer(final IOrderPerformer orderPerformer) {
 		this.orderPerformer = orderPerformer;

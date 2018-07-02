@@ -1,14 +1,18 @@
 package model;
 
 import java.awt.*;
+import java.util.ArrayList;
+import model.IGrid;
 
-public class LightCycle implements ILightCycle {
+public class LightCycle extends ArrayList<ILightCycle> implements ILightCycle {
     private int Width;
     private int Height;
     Direction direction;
     private Color color;
     ITronModel tronModel;
     IPosition position;
+    Dimension dimension;
+    IGrid grid;
 
     public LightCycle(int Width, int Height, Color color){
         this.setWidth(Width);
@@ -85,7 +89,26 @@ public class LightCycle implements ILightCycle {
         return this.tronModel;
     }
 
+    @Override
+    public Direction getDirection() {
+        return this.direction;
+    }
+
+    @Override
+    public void setDirection(Direction direction) {
+    this.direction = direction;
+    }
+
     public void setColor(Color color) {
         this.color = color;
     }
+    @Override
+    public boolean hit() {
+        grid.removeLightCycle(this);
+        return true;
+    }
+    public boolean isWeapon() {
+        return false;
+    }
+
 }

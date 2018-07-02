@@ -11,4 +11,8 @@ public interface ILightCycle {
     public IPosition getPosition();
     public ITronModel getTronModel();
     Direction getDirection();
+    void setDirection(Direction direction);
+    public boolean hit();
+    public void move();
+    public boolean isWeapon();
 }
