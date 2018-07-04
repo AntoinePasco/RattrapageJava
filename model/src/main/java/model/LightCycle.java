@@ -68,7 +68,7 @@ public class LightCycle extends ArrayList<ILightCycle> implements ILightCycle {
     }
 
     @Override
-    public void setTronModel(ITronModel tronModel) {
+    public void setTronModel(IGrid grid) {
         this.tronModel = tronModel;
         this.getPosition().setMaxX(this.getTronModel().getGrid().getDimension().getWidth());
         this.getPosition().setMaxY(this.getTronModel().getGrid().getDimension().getHeight());
@@ -110,5 +110,4 @@ public class LightCycle extends ArrayList<ILightCycle> implements ILightCycle {
     public boolean isWeapon() {
         return false;
     }
-
 }

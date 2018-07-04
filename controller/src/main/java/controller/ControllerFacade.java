@@ -1,10 +1,14 @@
 package controller;
 
+import java.awt.Graphics;
 import java.sql.SQLException;
 import java.util.List;
 
 import model.Example;
-import model.IModel;
+import model.IGrid;
+import model.ILightCycle;
+import model.ITronModel;
+import view.IEventPerformer;
 import view.IView;
 
 /**
@@ -19,8 +23,8 @@ public class ControllerFacade implements IController {
     private final IView  view;
 
     /** The model. */
-    private final IModel model;
-
+    private final ITronModel model;
+    private final IGrid grid;
     /**
      * Instantiates a new controller facade.
      *
@@ -29,10 +33,11 @@ public class ControllerFacade implements IController {
      * @param model
      *            the model
      */
-    public ControllerFacade(final IView view, final IModel model) {
+    public ControllerFacade(final IView view, final ITronModel model, IGrid grid) {
         super();
         this.view = view;
         this.model = model;
+        this.grid = grid;
     }
 
     /**
@@ -42,7 +47,8 @@ public class ControllerFacade implements IController {
      *             the SQL exception
      */
     public void start() throws SQLException {
-        this.getView().displayMessage(this.getModel().getExampleById(1).toString());
+
+      /*  this.getView().displayMessage(this.getModel().getExampleById(1).toString());
 
         this.getView().displayMessage(this.getModel().getExampleByName("Example 2").toString());
 
@@ -52,9 +58,25 @@ public class ControllerFacade implements IController {
             message.append(example);
             message.append('\n');
         }
-        this.getView().displayMessage(message.toString());
+        this.getView().displayMessage(message.toString());*/
+        startView();
+        startModel();
+
     }
 
+    public void startView() {
+        Graphics graphics = null;
+        this.getView().drawAllLightCycles(graphics);
+    }
+
+    public void startModel() {
+        this.getGrid().addLightCycle(null);
+        this.getModel().createGrid();
+        this.getModel().getGrid();
+        this.getGrid().getLightCycles();
+        this.getGrid().getLightCycleByPlayer(1);
+        this.getGrid().setLightCyclesHaveMoved();
+    }
     /**
      * Gets the view.
      *
@@ -64,12 +86,15 @@ public class ControllerFacade implements IController {
         return this.view;
     }
 
+    public IGrid getGrid() {
+        return this.grid;
+    }
     /**
      * Gets the model.
      *
      * @return the model
      */
-    public IModel getModel() {
+    public ITronModel getModel() {
         return this.model;
     }
 }
