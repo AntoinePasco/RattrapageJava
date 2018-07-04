@@ -21,4 +21,3 @@ public class TronFrame extends JFrame {
             grid.addObserver(tronPanel);
         }
     }
-}

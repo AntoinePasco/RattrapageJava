@@ -5,6 +5,7 @@ import view.IViewSystem;
 import model.Direction;
 import model.ILightCycle;
 import model.ITronModel;
+import model.IGrid;
 
 public class TronController implements IOrderPerformer {
 	private static int TIME_SLEEP = 30;
@@ -13,6 +14,7 @@ public class TronController implements IOrderPerformer {
 	private IViewSystem viewSystem;
 	ILightCycle lightCycle;
     Direction direction;
+    IGrid grid;
 
 
 	public TronController(final ITronModel tronModel) {
@@ -22,7 +24,7 @@ public class TronController implements IOrderPerformer {
 	@Override
 	public void orderPerform(final IUserOrder userOrder) {
 		if (userOrder != null) {
-			final ILightCycle lightCycle = this.tronModel.getLightCycleByPlayer(userOrder.getPlayer());
+			final ILightCycle lightCycle = this.grid.getLightCycleByPlayer(userOrder.getPlayer());
 			if (lightCycle != null) {
 
 				switch (userOrder.getOrder()) {
@@ -39,7 +41,7 @@ public class TronController implements IOrderPerformer {
 						direction = Direction.LEFT;
 						break;
 					default:
-						direction = this.tronModel.getLightCycleByPlayer(userOrder.getPlayer()).getDirection();
+						direction = this.grid.getLightCycleByPlayer(userOrder.getPlayer()).getDirection();
 						break;
 				}
 				lightCycle.setDirection(direction);
@@ -62,7 +64,7 @@ public class TronController implements IOrderPerformer {
 		final ArrayList<ILightCycle> target = new ArrayList<ILightCycle>();
 		boolean isTargetHit = false;
 
-		for (final ILightCycle mobile : this.tronModel.getLightCycles()) {
+		for (final ILightCycle mobile : this.grid.getLightCycles()) {
 			if (this.isWeaponOnMobile(mobile, weapon)) {
 				target.add(mobile);
 			}
@@ -71,7 +73,7 @@ public class TronController implements IOrderPerformer {
 			isTargetHit = isTargetHit || lightCycle.hit();
 		}
 		if (isTargetHit) {
-			this.tronModel.removeLightCycle(weapon);
+			this.grid.removeLightCycle(weapon);
 			this.isGameOver = true;
 		}
 	}
@@ -91,7 +93,7 @@ public class TronController implements IOrderPerformer {
 			}
 
 			final ArrayList<ILightCycle> initialLightCycles = new ArrayList<ILightCycle>();
-			for (final ILightCycle mobile : this.tronModel.getLightCycles()) {
+			for (final ILightCycle mobile : this.grid.getLightCycles()) {
 				initialLightCycles.add(mobile);
 			}
 			for (final ILightCycle lightCycle : initialLightCycles) {
@@ -100,7 +102,7 @@ public class TronController implements IOrderPerformer {
 					this.manageCollision(lightCycle);
 				}
 			}
-			this.tronModel.setLightCyclesHaveMoved();
+			this.grid.setLightCyclesHaveMoved();
 		}
 	}
 

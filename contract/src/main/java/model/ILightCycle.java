@@ -15,4 +15,5 @@ public interface ILightCycle {
     public boolean hit();
     public void move();
     public boolean isWeapon();
+    void setTronModel(IGrid grid);
 }
