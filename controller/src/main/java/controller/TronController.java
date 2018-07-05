@@ -7,7 +7,7 @@ import model.ILightCycle;
 import model.ITronModel;
 import model.IGrid;
 
-public class TronController implements IOrderPerformer {
+public class TronController implements IOrderPerformer, ITronController {
 	private static int TIME_SLEEP = 30;
 	private final ITronModel tronModel;
 	private boolean isGameOver	= false;
@@ -49,7 +49,7 @@ public class TronController implements IOrderPerformer {
 		}
 	}
 
-	private boolean isWeaponOnMobile(final ILightCycle lightCycle, final ILightCycle weapon) {
+	 public boolean isWeaponOnMobile(final ILightCycle lightCycle, final ILightCycle weapon) {
 		if (((weapon.getPosition().getX() / weapon.getWidth()) >= (lightCycle.getPosition().getX() / weapon.getWidth()))
 				&& ((weapon.getPosition().getX() / weapon.getWidth()) <= ((lightCycle.getPosition().getX() + lightCycle.getWidth()) / weapon.getWidth()))) {
 			if (((weapon.getPosition().getY() / weapon.getHeight()) >= (lightCycle.getPosition().getY() / weapon.getHeight()))
@@ -60,7 +60,7 @@ public class TronController implements IOrderPerformer {
 		return false;
 	}
 
-	private void manageCollision(final ILightCycle weapon) {
+	public void manageCollision(final ILightCycle weapon) {
 		final ArrayList<ILightCycle> target = new ArrayList<ILightCycle>();
 		boolean isTargetHit = false;
 
@@ -84,7 +84,7 @@ public class TronController implements IOrderPerformer {
 		this.viewSystem.closeAll();
 	}
 
-	private void gameLoop() {
+	public void gameLoop() {
 		while (!this.isGameOver) {
 			try {
 				Thread.sleep(TIME_SLEEP);

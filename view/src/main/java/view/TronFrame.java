@@ -1,12 +1,23 @@
 package view;
 
 import java.awt.Component;
+import java.util.Observable;
 import javax.swing.JFrame;
 import model.IGrid;
 
 public class TronFrame extends JFrame {
         private static final long serialVersionUID = -1112124206501543946L;
         public static final int ZOOM = 3;
+
+    public Observable getObservable() {
+        return observable;
+    }
+
+    public void setObservable(Observable observable) {
+        this.observable = observable;
+    }
+
+    private Observable observable;
 
         public TronFrame(String title,IGrid grid) {
             this.setTitle(title);
@@ -18,6 +29,7 @@ public class TronFrame extends JFrame {
             this.setSize(grid.getX() * 3 + this.getInsets().left + this.getInsets().right, grid.getY() * 3 + this.getInsets().top + this.getInsets().bottom);
             this.setLocationRelativeTo((Component)null);
             this.setVisible(true);
-            grid.addObserver(tronPanel);
+            this.getObservable().addObserver(tronPanel);
+            //grid.addObserver(tronPanel);
         }
     }
