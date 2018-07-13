@@ -1,89 +1,120 @@
 package model;
-
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Observable;
+import model.IGrid;
+import model.WallEnum;
+import model.dao.TronDAO;
 
 public class Grid extends Observable implements IGrid {
-    private int x = 600;
-    private int y = 400;
-    private EnumWall wall;
-    private Dimension dimension;
-    LightCycle lightCycles;
+private int x ;
+private int y ;
+ArrayList<ILightCycles> lightCycles;
+WallEnum[][] briks;
 
 
-    @Override
-    public int getX() {
-        return 0;
-    }
+public Grid (final int x, final int y) {
+	this.x = x;
+	this.y = y;
+	this.lightCycles = new ArrayList<ILightCycles>();
+	this.briks = new WallEnum[x][y];
+	this.createGrid();
+}
 
-    @Override
-    public int getY() {
-        return 0;
-    }
+@Override
+public void createGrid() {
+	 for (int x = 0; x < this.x; x++) {
+         for (int y = 0; y < this.y; y++) {
+             if ((x == 0) || (x == (this.x - 1)) || (y == 0) || (y == (this.y - 1))) {
+            	 
+                 this.setBriksXY(WallEnum.WALL, x, y);
+                 
+             } else {
+            	 
+                 this.setBriksXY(WallEnum.GROUND, x, y);
+             }
+         }
+     }
+}
 
-    public EnumWall getWall() {
-        return this.wall;
-    }
+@Override
+public int getX() {
+	return this.x;
+}
 
-    public void setWall(EnumWall wall) {
-        this.wall = wall;
-    }
+@Override
+public void setX(int x) {
+	this.x = x;
+}
 
-    public Grid(){
-        this.createGrid();
-    }
+@Override
+public int getY() {
+	return this.y;
+}
 
-    @Override
-    public void createGrid() {
-        for (int i = 0; i <= this.getX(); i++) {
-            for (int j = 0; j <= this.getY(); j++) {
-                this.setWall(wall.SPACE);
-            }
+@Override
+public void setY(int y) {
+	this.y = y;
+}
+
+@Override
+public WallEnum getBriksXY(final int x, final int y) {
+    return this.briks[x][y];
+}
+
+@Override
+public void setBriksXY(WallEnum briks, int x, int y) {
+	this.briks[x][y] = briks;
+}
+
+@Override
+public ArrayList<ILightCycles> getLightCycles() {
+	return this.lightCycles;
+}
+
+@Override
+public ILightCycles getMobileByPlayer(final int player) {
+    for (final ILightCycles lightCycle : this.lightCycles) {
+        if (lightCycle.isPlayer(player)) {
+            return lightCycle;
         }
     }
+    return null;
+}
 
-    public IDimension getDimension(){
-        return this.dimension;
-    }
+@Override
+public void setLightCyclesHavesMoved() {
+	this.setChanged();
+	this.notifyObservers();
+	
+}
 
-    @Override
-    public ArrayList<ILightCycle> getCopyOfLightCycles() {
-        final ArrayList<ILightCycle> copyOflightcycles = new ArrayList<ILightCycle>();
+@Override
+public void addLightCycles(ILightCycles lightCycles) {
+	this.lightCycles.add(lightCycles);
+	lightCycles.setGrid(this);
+	
+}
 
-        for (final ILightCycle lightcycle : this.getLightCycles()) {
-            copyOflightcycles.add(lightcycle);
-        }
-        return copyOflightcycles;
-    }
+@Override
+public void addWall(int player) {
+	 this.setBriksXY(WallEnum.getWallByPlayer(player),
+             this.getMobileByPlayer(player).getPosition().getX(),
+             this.getMobileByPlayer(player).getPosition().getY());
 
-    @Override
-    public void addLightCycle(final ILightCycle lightCycles) {
-        this.lightCycles.add(lightCycles);
-        lightCycles.setTronModel(this);
-    }
+ }
 
-    @Override
-    public ArrayList<ILightCycle> getLightCycles() {
-        return this.lightCycles;
-    }
+@Override
+public void setResult(int player, long time) throws SQLException {
+	 TronDAO.setResult(player, time);
+	
+}
 
-    @Override
-    public ILightCycle getLightCycleByPlayer(final int player) {
-        for (final ILightCycle lightCycle : this.lightCycles) {
-            if (lightCycle.isPlayer(player)) {
-                return lightCycle;
-            }
-        }
-        return null;
-    }
+@Override
+public void update(Observable o, Object arg) {
+	// TODO Auto-generated method stub
+	
+}
 
-    @Override
-    public void setLightCyclesHaveMoved() {
-        this.setChanged();
-        this.notifyObservers();
-    }
-    @Override
-    public void removeLightCycle(final ILightCycle lightCycle) {
-        this.lightCycles.remove(lightCycle);
-    }
+
 }

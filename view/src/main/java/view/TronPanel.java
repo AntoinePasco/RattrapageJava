@@ -3,21 +3,25 @@ package view;
 import java.awt.Graphics;
 import java.util.Observable;
 import java.util.Observer;
+
 import javax.swing.JPanel;
 
 public class TronPanel extends JPanel implements Observer {
-    private static final long serialVersionUID = 3987064896591403626L;
-    private final GraphicsBuilder graphicsBuilder;
+	private static final long								serialVersionUID	= 3987064896591403626L;
+	private final TronGraphicsBuilder	graphicsBuilder;
+	
+	
+	public TronPanel(final TronGraphicsBuilder graphicsBuilder) {
+		this.graphicsBuilder = graphicsBuilder;
+	}
 
-    public TronPanel(GraphicsBuilder graphicsBuilder) {
-        this.graphicsBuilder = graphicsBuilder;
-    }
+	@Override
+	public void update(final Observable arg0, final Object arg1) {
+		this.repaint();
+	}
 
-    public void update(Observable arg0, Object arg1) {
-        this.repaint();
-    }
-
-    protected void paintComponent(Graphics graphics) {
-        this.graphicsBuilder.applyModelToGraphic(graphics);
-    }
+	@Override
+	protected void paintComponent(final Graphics graphics) {
+		this.graphicsBuilder.applyModelToGraphic(graphics, this);
+	}
 }

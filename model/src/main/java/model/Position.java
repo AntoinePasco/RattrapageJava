@@ -1,41 +1,37 @@
 package model;
 
-public class Position implements IPosition {
-	private int	x;
-	private int	y;
-	private int	maxX	= 1;
-	private int	maxY	= 1;
+public class Position implements IPosition{
+	    private int x;
+	    private int y;
 
-	public Position(final int x, final int y) {
-		this.x = x;
-		this.y = y;
-	}
+	    public Position(final int x, final int y) {
+	        this.x = x;
+	        this.y = y;
+	        // TODO Auto-generated constructor stub
+	    }
 
-	public Position(final Position position) {
-		this(position.getX(), position.getY());
-	}
+	    public Position(final Position position) {
+	        this(position.getX(), position.getY());
+	    }
 
-	public int getX() {
-		return this.x;
-	}
+	    @Override
+	    public int getX() {
+	        return this.x;
+	    }
 
-	public void setX(final int x) {
-		this.x = (x + this.maxX) % this.maxX;
-	}
+	    @Override
+	    public void setX(final int x) {
+	        this.x = x;
+	    }
 
-	public int getY() {
-		return this.y;
-	}
+	    @Override
+	    public int getY() {
+	        return this.y;
+	    }
 
-	public void setY(final int y) {
-		this.y = (y + this.maxY) % this.maxY;
-	}
+	    @Override
+	    public void setY(final int y) {
+	        this.y = y;
+	    }
 
-	public void setMaxX(final int maxX) {
-		this.maxX = maxX;
 	}
-
-	public void setMaxY(final int maxY) {
-		this.maxY = maxY;
-	}
-}

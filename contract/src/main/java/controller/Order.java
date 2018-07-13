@@ -1,5 +1,5 @@
 package controller;
 
 public enum Order {
-	UP, RIGHT, DOWN, LEFT
+UP,DOWN,LEFT,RIGHT,NOP
 }

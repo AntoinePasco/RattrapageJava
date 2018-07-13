@@ -10,6 +10,7 @@
         <module name="controller" />
         <module name="main" />
         <module name="model" />
+        <module name="showboard" />
         <module name="view" />
       </profile>
     </annotationProcessing>
@@ -19,6 +20,7 @@
       <module name="git" target="1.8" />
       <module name="main" target="1.8" />
       <module name="model" target="1.8" />
+      <module name="showboard" target="1.8" />
       <module name="view" target="1.8" />
     </bytecodeTargetLevel>
   </component>

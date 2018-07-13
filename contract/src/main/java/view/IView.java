@@ -1,5 +1,11 @@
 package view;
 
+import java.awt.Graphics;
+import java.io.IOException;
+
+import controller.IOrderPerformer;
+import model.IGrid;
+
 /**
  * <h1>The Interface IView.</h1>
  *
@@ -15,4 +21,6 @@ public interface IView {
      *            the message
      */
     void displayMessage(String message);
+    public void setGrid(IGrid iGrid) throws IOException;
+	void closeAll();
 }
